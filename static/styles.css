@@ -1,0 +1,429 @@
+:root {
+  color-scheme: light;
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --surface-2: #eef2f5;
+  --line: #d9e0e7;
+  --text: #17202a;
+  --muted: #6a7684;
+  --accent: #1f7a8c;
+  --accent-dark: #145a68;
+  --red: #d93025;
+  --blue: #1a73e8;
+  --shadow: 0 18px 45px rgba(25, 35, 45, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+}
+
+h1,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 25px;
+  letter-spacing: 0;
+}
+
+.brand p,
+.status-text {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.refresh-btn,
+.primary-btn,
+.ghost-btn,
+.icon-btn {
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 150ms ease, background 150ms ease, opacity 150ms ease;
+}
+
+.refresh-btn {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+}
+
+.refresh-btn:hover,
+.primary-btn:hover,
+.icon-btn:hover {
+  transform: translateY(-1px);
+}
+
+.refresh-icon {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #fff;
+  border-radius: 50%;
+}
+
+.refreshing .refresh-icon {
+  animation: spin 800ms linear infinite;
+}
+
+.tabs-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+}
+
+.tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.tab {
+  display: flex;
+  min-width: 112px;
+  max-width: 210px;
+  height: 42px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 10px 0 14px;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  background: var(--surface-2);
+  color: var(--muted);
+}
+
+.tab.active {
+  height: 46px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.tab-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tab-actions {
+  display: flex;
+  gap: 2px;
+}
+
+.mini-btn {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.mini-btn:hover {
+  background: rgba(31, 122, 140, 0.12);
+  color: var(--text);
+}
+
+.add-tab {
+  width: 42px;
+  height: 42px;
+  margin-bottom: 0;
+  background: #dfe7ec;
+  color: var(--accent-dark);
+  font-size: 24px;
+}
+
+.workspace {
+  min-height: 520px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-top: 0;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.search-box {
+  position: relative;
+  width: min(440px, 100%);
+}
+
+.search-box input,
+.modal input {
+  width: 100%;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 14px;
+  outline: none;
+}
+
+.search-box input:focus,
+.modal input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(31, 122, 140, 0.14);
+}
+
+.suggestions {
+  position: absolute;
+  z-index: 5;
+  top: 50px;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.suggestion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 13px;
+  cursor: pointer;
+}
+
+.suggestion:hover {
+  background: #edf7f8;
+}
+
+.suggestion small {
+  color: var(--muted);
+}
+
+.list-panel {
+  overflow-x: auto;
+}
+
+.stock-header,
+.stock-row {
+  display: grid;
+  grid-template-columns: 44px minmax(170px, 1.5fr) minmax(110px, 1fr) minmax(100px, 1fr) minmax(120px, 1fr) 44px;
+  align-items: center;
+  min-width: 720px;
+}
+
+.stock-header {
+  height: 40px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.stock-row {
+  min-height: 58px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.stock-row.dragging {
+  opacity: 0.5;
+}
+
+.stock-row:hover {
+  background: #fbfcfd;
+}
+
+.drag-handle {
+  color: var(--muted);
+  cursor: grab;
+  text-align: center;
+  font-size: 19px;
+}
+
+.stock-name strong {
+  display: block;
+}
+
+.stock-name small {
+  color: var(--muted);
+}
+
+.up {
+  color: var(--red);
+  font-weight: 800;
+}
+
+.down {
+  color: var(--blue);
+  font-weight: 800;
+}
+
+.empty-state {
+  display: none;
+  padding: 58px 18px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(14, 22, 29, 0.42);
+}
+
+.hidden {
+  display: none;
+}
+
+.modal {
+  width: min(380px, 100%);
+  padding: 22px;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.context-menu {
+  position: fixed;
+  z-index: 20;
+  min-width: 156px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.context-menu button {
+  width: 100%;
+  min-height: 38px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  padding: 0 12px;
+  text-align: left;
+}
+
+.context-menu button:hover {
+  background: #edf7f8;
+}
+
+.modal h2 {
+  margin: 0 0 16px;
+  font-size: 20px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.primary-btn,
+.ghost-btn {
+  min-width: 76px;
+  height: 40px;
+  padding: 0 14px;
+}
+
+.primary-btn {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+}
+
+.ghost-btn {
+  background: #edf1f4;
+  color: var(--text);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    width: 100%;
+    padding: 14px;
+  }
+
+  .topbar,
+  .toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .refresh-btn {
+    justify-content: center;
+  }
+
+  .workspace {
+    padding: 14px;
+  }
+}

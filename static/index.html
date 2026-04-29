@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tooStar</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">tS</span>
+          <div>
+            <h1>tooStar</h1>
+            <p>맞춤형 관심종목</p>
+          </div>
+        </div>
+        <button id="refreshBtn" class="refresh-btn" type="button">
+          <span id="refreshIcon" class="refresh-icon"></span>
+          업데이트
+        </button>
+      </header>
+
+      <section class="tabs-wrap" aria-label="관심종목 탭">
+        <div id="tabs" class="tabs"></div>
+        <button id="addTabBtn" class="icon-btn add-tab" type="button" aria-label="탭 추가">+</button>
+      </section>
+
+      <section class="workspace">
+        <div class="toolbar">
+          <div class="search-box">
+            <input
+              id="stockSearch"
+              type="text"
+              autocomplete="off"
+              placeholder="종목명 또는 티커 검색"
+              aria-label="종목 검색"
+            />
+            <div id="suggestions" class="suggestions" role="listbox"></div>
+          </div>
+          <div id="statusText" class="status-text">준비됨</div>
+        </div>
+
+        <div class="list-panel">
+          <div class="stock-header">
+            <span></span>
+            <span>종목명</span>
+            <span>현재가</span>
+            <span>변동률</span>
+            <span>거래량</span>
+            <span></span>
+          </div>
+          <div id="stockList" class="stock-list"></div>
+          <div id="emptyState" class="empty-state">
+            현재 탭에 종목이 없습니다. 검색해서 관심종목을 추가하세요.
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="tabModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <form id="tabForm" class="modal">
+        <h2 id="modalTitle">새 탭 만들기</h2>
+        <input id="tabNameInput" type="text" maxlength="24" placeholder="탭 이름" required />
+        <div class="modal-actions">
+          <button id="cancelModalBtn" class="ghost-btn" type="button">취소</button>
+          <button class="primary-btn" type="submit">확인</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="tabContextMenu" class="context-menu hidden" role="menu">
+      <button id="renameTabMenuItem" type="button" role="menuitem">탭 이름 변경</button>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
