@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -7,61 +7,137 @@
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <main class="app-shell">
+    <section id="authView" class="auth-view">
+      <div class="auth-panel auth-brand">
+        <p class="eyebrow">tooStar</p>
+        <h1>로그인</h1>
+        <p class="auth-copy">계정으로 로그인하면 사용자별 관심종목을 따로 저장합니다.</p>
+      </div>
+      <div class="auth-panel auth-form-panel">
+        <div class="auth-tabs" role="tablist" aria-label="로그인 탭">
+          <button class="auth-tab active" data-auth-tab="login" type="button">로그인</button>
+          <button class="auth-tab" data-auth-tab="signup" type="button">회원가입</button>
+        </div>
+        <form id="loginForm" class="auth-form">
+          <input id="loginEmail" type="email" placeholder="bruce@choice.com" autocomplete="email" required />
+          <input id="loginPassword" type="password" placeholder="비밀번호" autocomplete="current-password" required />
+          <button class="primary-btn" type="submit">로그인</button>
+        </form>
+        <form id="signupForm" class="auth-form hidden">
+          <input id="signupName" type="text" placeholder="이름" autocomplete="name" required />
+          <input id="signupEmail" type="email" placeholder="이메일" autocomplete="email" required />
+          <input id="signupPassword" type="password" placeholder="비밀번호" autocomplete="new-password" required />
+          <button class="primary-btn" type="submit">회원가입</button>
+        </form>
+        <p id="authMessage" class="auth-message" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <main id="appShell" class="app-shell hidden">
       <header class="topbar">
         <div class="brand">
-          <span class="brand-mark">tS</span>
           <div>
             <h1>tooStar</h1>
-            <p>맞춤형 관심종목</p>
+            <p id="userLabel" class="user-label"></p>
           </div>
         </div>
-        <button id="refreshBtn" class="refresh-btn" type="button">
-          <span id="refreshIcon" class="refresh-icon"></span>
-          업데이트
-        </button>
+        <div class="topbar-actions">
+          <button id="logoutBtn" class="ghost-btn" type="button">로그아웃</button>
+        </div>
       </header>
 
-      <section class="tabs-wrap" aria-label="관심종목 탭">
-        <div id="tabs" class="tabs"></div>
-        <button id="addTabBtn" class="icon-btn add-tab" type="button" aria-label="탭 추가">+</button>
-      </section>
-
-      <section class="workspace">
-        <div class="toolbar">
-          <div class="search-box">
-            <input
-              id="stockSearch"
-              type="text"
-              autocomplete="off"
-              placeholder="종목명 또는 티커 검색"
-              aria-label="종목 검색"
-            />
-            <div id="suggestions" class="suggestions" role="listbox"></div>
-          </div>
-          <div id="statusText" class="status-text">준비됨</div>
+      <section id="watchPage" class="page-view active" aria-labelledby="watchPageTitle">
+        <div class="page-heading">
+          <h2 id="watchPageTitle">관심종목</h2>
+          <p>탭별로 종목을 모아보고 가격을 갱신합니다.</p>
         </div>
 
-        <div class="list-panel">
-          <div class="stock-header">
-            <span></span>
-            <span>종목명</span>
-            <span>현재가</span>
-            <span>변동률</span>
-            <span>거래량</span>
-            <span></span>
+        <section class="tabs-wrap" aria-label="관심종목 목록">
+          <div id="tabs" class="tabs"></div>
+          <button id="addTabBtn" class="icon-btn add-tab" type="button" aria-label="탭 추가">+</button>
+        </section>
+
+        <section class="workspace watch-workspace">
+          <div class="toolbar">
+            <div class="search-box">
+              <input
+                id="stockSearch"
+                type="text"
+                autocomplete="off"
+                placeholder="종목명 또는 티커 검색"
+                aria-label="종목 검색"
+              />
+              <div id="suggestions" class="suggestions" role="listbox"></div>
+            </div>
+            <div class="status-actions">
+              <div id="statusText" class="status-text">준비됨</div>
+              <button id="refreshBtn" class="refresh-btn" type="button">
+                <span id="refreshIcon" class="refresh-icon"></span>
+                업데이트
+              </button>
+            </div>
           </div>
-          <div id="stockList" class="stock-list"></div>
-          <div id="emptyState" class="empty-state">
-            현재 탭에 종목이 없습니다. 검색해서 관심종목을 추가하세요.
+
+          <div class="list-tools">
+            <div id="columnViewTabs" class="column-view-tabs" role="tablist" aria-label="컬럼 보기">
+              <button class="column-view-tab active" type="button" data-column-view="price">가격</button>
+              <button class="column-view-tab" type="button" data-column-view="fundamental">펀더멘털</button>
+              <button class="column-view-tab" type="button" data-column-view="performance">성과 상승률</button>
+            </div>
+            <div class="column-settings">
+              <button id="columnSettingsBtn" class="ghost-btn column-settings-btn" type="button" aria-expanded="false">
+                설정
+              </button>
+              <div id="columnSettingsMenu" class="column-settings-menu hidden"></div>
+            </div>
           </div>
+
+          <div class="list-panel">
+            <div id="stockHeader" class="stock-header">
+              <span></span>
+              <span>종목명</span>
+              <span>현재가</span>
+              <span>변동률</span>
+              <span>거래량</span>
+              <span></span>
+            </div>
+            <div id="stockList" class="stock-list"></div>
+            <div id="emptyState" class="empty-state">
+              현재 탭에 종목이 없습니다. 검색해서 관심종목을 추가하세요.
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="serverPage" class="page-view" aria-labelledby="serverPanelTitle">
+        <div class="workspace">
+          <section class="server-panel">
+            <div class="server-panel-head">
+              <div>
+                <h2 id="serverPanelTitle">서버상태</h2>
+                <p>벌처, 로컬, note20, s8 상태를 한 번에 확인합니다.</p>
+              </div>
+              <button id="serverRefreshBtn" class="ghost-btn server-refresh-btn" type="button">상태 확인</button>
+            </div>
+            <div id="serverStatusList" class="server-status-list"></div>
+          </section>
         </div>
       </section>
     </main>
 
+    <div id="luluSwitcher" class="lulu-switcher hidden" aria-label="페이지 이동 메뉴">
+      <button id="luluToggleBtn" class="lulu-fab" type="button" aria-expanded="false" aria-controls="luluMenu">
+        <span>lulu</span>
+      </button>
+      <div id="luluMenu" class="lulu-menu" role="menu">
+        <button class="lulu-menu-btn active" type="button" data-page="watch" role="menuitem">관심종목</button>
+        <button id="serverMenuBtn" class="lulu-menu-btn" type="button" data-page="server" role="menuitem">서버상태</button>
+      </div>
+    </div>
+
     <div id="tabModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <form id="tabForm" class="modal">
-        <h2 id="modalTitle">새 탭 만들기</h2>
+        <h2 id="modalTitle">탭 만들기</h2>
         <input id="tabNameInput" type="text" maxlength="24" placeholder="탭 이름" required />
         <div class="modal-actions">
           <button id="cancelModalBtn" class="ghost-btn" type="button">취소</button>
@@ -74,6 +150,18 @@
       <button id="renameTabMenuItem" type="button" role="menuitem">탭 이름 변경</button>
     </div>
 
+    <div id="deleteTabModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="deleteTabTitle">
+      <div class="modal">
+        <h2 id="deleteTabTitle">탭 삭제</h2>
+        <p id="deleteTabMessage" class="modal-message">이 탭을 지우겠습니까?</p>
+        <div class="modal-actions">
+          <button id="cancelDeleteTabBtn" class="ghost-btn" type="button">취소</button>
+          <button id="confirmDeleteTabBtn" class="danger-btn" type="button">지우기</button>
+        </div>
+      </div>
+    </div>
+
     <script src="/static/app.js"></script>
   </body>
 </html>
+

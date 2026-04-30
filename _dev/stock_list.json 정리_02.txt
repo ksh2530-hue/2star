@@ -1,0 +1,114 @@
+1. 지수 index(약 45개)
+
+KOSPI
+KOSDAQ 
+나스닥
+S&P500
+VIX 
+환율/달러 
+달러 인덱스 
+한국 국채 2y
+한국 국채 10y    
+미국 국채 10y 
+금                    
+천연가스
+은                     
+구리 
+밀 
+WTI                   
+펜타곤 피자지수
+다우산업 
+필라델피아 반도체  
+상해종합
+니케이225 
+항셍
+영국FTSE100 
+프랑스CAC40 
+독일DAX
+일본 엔                
+유로 EUR :  
+
+선물 Future FinViz 지수 
+DJIA :                                 
+니케225 : 
+S&P500 :                             
+EURO : 
+나스닥100 :                              
+DAX :
+러셀 2000 :                          
+VIX : 
+
+한국 선물 지수 
+에너지화학 :                        
+중공업 :
+정보기술 :                         
+헬스케어 : 
+금융 :                               
+생활소비재 : 
+경기소비재 :                            
+철강/소재 : 
+건설 :                               
+산업재 : 
+
+- - 
+
+2. 한국주식 종목 (약 26개)
+
+신성이엔지 : 
+삼륨물산 :                                
+두산에너빌리티 : 
+삼성전자 : 
+SK하이닉스 : 
+한미반도체 : 
+카카오뱅크 :                      
+카카오페이:                        
+카카오 : 
+현대차 : 
+기아 : 
+유한양행 : 
+펩트론 : 
+넥슨게임즈 : 
+디앤디파마텍 : 
+풍산 : 
+에이피알 : 
+로보티즈 : 
+효성중공업 : 
+신성델타테크 : 
+Upbit :
+빗썸 :
+Coinone :                    
+
+KBank  :
+ 
+3. 코인 & 미국주식(약 29개)
+
+XRP :                                  
+AAPL : 
+SOL :                                  
+PLTR : 
+BTC :                                  
+AMD : 
+ETH :                                  
+HOOD : 
+GOOG :                              
+INOQ : 
+Meta :                                  
+NVDA : 
+MSFT :                                 
+TEM : 
+ AVGO :                                
+INTC :  
+CXAI :    
+Joby Aviation : 
+Roket Lab : 
+Nuscale Power : 
+BWXT : 
+Oklo : 
+CEG : 
+VRT 버티브홀딩스 : 
+GE베리노바 GEV : 
+BMNR 비트마인 : 
+CRCL : 
+XYZ 블록 : 
+TSLA : 
+DOGE :

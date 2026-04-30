@@ -1,0 +1,17 @@
+[
+  {
+    "id": "a50e2445-7bf8-49af-bfa1-1050ed3d912d",
+    "name": "bruce",
+    "email": "bruce@choice.com",
+    "password": "1234",
+    "role": "admin"
+  },
+  {
+    "id": "63121deb-5fc7-4b72-b16e-55a18b0f415b",
+    "name": "joseph",
+    "email": "joseph@naver.com",
+    "password": "1212",
+    "role": "user",
+    "dailyGoal": 5
+  }
+]

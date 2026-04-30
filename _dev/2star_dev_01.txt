@@ -1,0 +1,94 @@
+2star 
+파이썬 실행하는 명령어 : 
+웹 접속 ip:port  
+
+알려줘
+
+- - -
+
+<button type="button" id="qDoodleWordChipText" class="q-doodle-word-chip-text" style="font-size:14px;">d3</button>
+
+<div class="q-doodle-word-chip-memo word" style="font-size:9.8px;">word memo</div>
+
+foldy 
+상황 : d1 모드시 두들링 모드에서 상단의 코드 부분 위에서 두들링이 안됨
+요청 : d1 모드시 두들링 모드에서 상단의 코드 부분 위에서 두들링되게 해줘
+
+<button type="button" class="row-doodle-preview-clear-btn" data-row-doodle-clear-index="1" title="double tap with pen to clear this card doodle" aria-label="clear this card doodle" data-row-doodle-clear-bound="1" hidden="">cl1</button>
+
+foldy 
+상황 : d1 모드시 두들링 모드에서 상단의 코드 부분 c1 위에서 두들링이 됨, 삭제를 해야되는데 버튼이 안눌러짐  
+요청 :  d1 모드시 두들링 모드에서 상단의 코드 부분 c1 위에서 두들링이 안되게 해줘 - 다른부분위에서는 두들링 되어야 됨
+
+
+<button type="button" id="qDoodleWordChipText" class="q-doodle-word-chip-text" style="font-size:14px;">mh</button>
+
+<div class="q-doodle-word-chip-memo word" style="font-size:9.8px;">word memo</div>
+
+상황 : d1 모드시 두들링 모드에서 상단의 코드 부분 위에서 두들링이 되긴 하는데 선이 픽픽 찢어짐
+요청 : d1 모드시 두들링 모드에서 상단의 코드 부분 위에서 두들링이 되긴 하는데 선이 픽픽 찢어지는 현상 없게해줘(갤럭시 노트의 크롬브라우저에서 스타일러스 팬으로 했을때)
+
+상단의 코드 부분 위치에 호버링되었을때 팬으로 바뀌어서 두들링이 되어야 하는데 손모양으로 바뀜
+뭔가 .. 그리기 영역이 아니라는 뜻인거 같음.
+그리고 저 검은 정보역역 표시되는것에 한글깨진거 있어. 수정해줘 
+
+
+
+foldy 
+상황 : d1 모드시 두들링 모드에서 상단의 코드 부분 위에서 두들링이 안됨(버튼형식임)
+요청 : d1 모드시 두들링 모드에서 상단의 코드 부분 위에서 두들링되게 해줘
+
+<button id="qDoodleClearBtn" class="q-doodle-board-clear-btn" type="button" title="double tap with pen to clear current doodle" aria-label="clear current doodle" data-doodle-clear-bound="1">cl1</button>
+
+<button id="qDoodleHandleBtn" class="q-doodle-board-handle" type="button" aria-label="word toggle + doodling" title="word toggle + doodling">☰☰</button>
+
+d1 모드시 두들링 모드에서 상단의 코드 부분 c1 위에서 두들링이 안되게 해줘 - 다른부분위에서는 두들링 되어야 됨
+
+d1 일반 모드에는 팬을 안쓰니깐 어떻게 작동하는지는 모르겠지만 
+
+여전히 같은 상황 
+해결책 : 
+
+d1 두들링 그리기 모드 시에만 그리기판이 위고 코드부분의 글씨부문을 아래로 들어가게 세팅이 되면 될거같은 느낌
+
+d3 모드에서는 잘되는데 d1은 왜 안되는거야??
+
+이제 잘 된다.
+근데 팬일때 팬이랑, 지우개일대 지우개 그림이 마우스 커서에  적용되던게 안됨
+
+
+
+d1 : 한개의 카드만 두들링 그리기 가능 모드 
+d3 :  전체카드가 두들링 그리기 가능 모드 
+
+d3 모드시 word, word memo 파트 위에서 팬작동 산태를 d1일때 적용해봐
+
+d1 두들링 그리기 모드 시에만 동그라미 친부분의 레이어를 그리기판의 아래로 넣어줘
+
+
+foldy 
+두들링 모드에서 
+단축키 
+숫자 1 : 팬
+숫자 2 : 지우개 
+
+
+
+인지 객체(버튼) -> 캡쳐 -> 지피티에 요청 -> 정보취득 
+내용작성, 객체들 정의 
+상황 : 작성
+요청 : 작성 
+
+
+이거 좋은데 
+tooltip
+
+
+
+
+
+
+
+
+
+
