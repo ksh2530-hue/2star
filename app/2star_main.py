@@ -23,6 +23,8 @@ except Exception:
     yf = None
 
 
+print("2star_main.py is running ..", flush=True)
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 STATIC_DIR = PROJECT_ROOT / "static"
 
