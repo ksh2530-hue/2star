@@ -1,0 +1,18 @@
+
+
+git clone https://github.com/orgbruce/Choice_01.git
+git clone https://github.com/ksh2530-hue/2star.git
+
+
+클론 받은 상태 그대로인데 내가 수정해서 커밋
+git add .
+git commit -m "기능업데이트"
+git push
+
+레포지토리 = 저장소 
+
+최신 커밋으로 원격저장소 덮어쓰기,  최신 상태
+git fetch origin
+git reset --hard origin/main
+
+
