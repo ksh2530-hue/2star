@@ -1,14 +1,20 @@
 
-git 고민 
+git 공부
 
+첫번째 
 git init        # Git 시작
 git add .       # 변경 파일 등록
 git commit -m "첫 커밋"  # 저장(스냅샷)
 
-
+커밋 2번째 부터
 git add .
 git commit -m "메시지" -> 로컬에만 저장
 git push  -> GitHub에 업로드 
+
+최신 커밋으로 원격저장소 덮어쓰기,  최신 상태
+git fetch origin
+git reset --hard origin/main
+
 
 git  어느 시점으로 다시 되돌리려고 할때 시간이나 리스트가 있는건가??
 

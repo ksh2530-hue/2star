@@ -93,17 +93,26 @@
           </div>
 
           <div class="list-panel">
-            <div id="stockHeader" class="stock-header">
-              <span></span>
-              <span>종목명</span>
-              <span>현재가</span>
-              <span>변동률</span>
-              <span>거래량</span>
-              <span></span>
+            <div id="topHorizontalScroll" class="table-horizontal-scroll top" aria-hidden="true">
+              <div id="topHorizontalScrollInner" class="table-horizontal-scroll-inner"></div>
             </div>
-            <div id="stockList" class="stock-list"></div>
-            <div id="emptyState" class="empty-state">
-              현재 탭에 종목이 없습니다. 검색해서 관심종목을 추가하세요.
+            <div id="stockTableScroll" class="stock-table-scroll">
+              <div id="fixedColumnCurtain" class="fixed-column-curtain" aria-hidden="true"></div>
+              <div id="stockHeader" class="stock-header">
+                <span></span>
+                <span>종목명</span>
+                <span>현재가</span>
+                <span>변동률</span>
+                <span>거래량</span>
+                <span></span>
+              </div>
+              <div id="stockList" class="stock-list"></div>
+              <div id="emptyState" class="empty-state">
+                현재 탭에 종목이 없습니다. 검색해서 관심종목을 추가하세요.
+              </div>
+            </div>
+            <div id="bottomHorizontalScroll" class="table-horizontal-scroll bottom" aria-hidden="true">
+              <div id="bottomHorizontalScrollInner" class="table-horizontal-scroll-inner"></div>
             </div>
           </div>
         </section>
@@ -157,6 +166,22 @@
         <div class="modal-actions">
           <button id="cancelDeleteTabBtn" class="ghost-btn" type="button">취소</button>
           <button id="confirmDeleteTabBtn" class="danger-btn" type="button">지우기</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="stockContextMenu" class="context-menu hidden" role="menu">
+      <button id="writeMemoMenuItem" type="button" role="menuitem">메모 작성</button>
+    </div>
+
+    <div id="memoModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="memoModalTitle">
+      <div class="modal memo-modal">
+        <h2 id="memoModalTitle">종목 메모</h2>
+        <textarea id="memoInput" class="memo-input" maxlength="500" autocomplete="off" aria-label="종목 메모"></textarea>
+        <p id="memoMessage" class="modal-message" aria-live="polite"></p>
+        <div class="modal-actions">
+          <button id="cancelMemoBtn" class="ghost-btn" type="button">취소</button>
+          <button id="saveMemoBtn" class="primary-btn" type="button">저장</button>
         </div>
       </div>
     </div>

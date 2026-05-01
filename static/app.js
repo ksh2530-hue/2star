@@ -91,6 +91,7 @@ const state = {
   suggestionNavigationVersion: 0,
   draggingColumnId: "",
   resizingColumn: null,
+  editingMemoSymbol: "",
 };
 
 const els = {
@@ -120,6 +121,12 @@ const els = {
   suggestions: document.getElementById("suggestions"),
   stockHeader: document.getElementById("stockHeader"),
   stockList: document.getElementById("stockList"),
+  stockTableScroll: document.getElementById("stockTableScroll"),
+  fixedColumnCurtain: document.getElementById("fixedColumnCurtain"),
+  topHorizontalScroll: document.getElementById("topHorizontalScroll"),
+  topHorizontalScrollInner: document.getElementById("topHorizontalScrollInner"),
+  bottomHorizontalScroll: document.getElementById("bottomHorizontalScroll"),
+  bottomHorizontalScrollInner: document.getElementById("bottomHorizontalScrollInner"),
   emptyState: document.getElementById("emptyState"),
   columnSettingsBtn: document.getElementById("columnSettingsBtn"),
   columnSettingsMenu: document.getElementById("columnSettingsMenu"),
@@ -132,9 +139,20 @@ const els = {
   deleteTabMessage: document.getElementById("deleteTabMessage"),
   cancelDeleteTabBtn: document.getElementById("cancelDeleteTabBtn"),
   confirmDeleteTabBtn: document.getElementById("confirmDeleteTabBtn"),
+  stockContextMenu: document.getElementById("stockContextMenu"),
+  writeMemoMenuItem: document.getElementById("writeMemoMenuItem"),
+  memoModal: document.getElementById("memoModal"),
+  memoInput: document.getElementById("memoInput"),
+  memoMessage: document.getElementById("memoMessage"),
+  cancelMemoBtn: document.getElementById("cancelMemoBtn"),
+  saveMemoBtn: document.getElementById("saveMemoBtn"),
   serverRefreshBtn: document.getElementById("serverRefreshBtn"),
   serverStatusList: document.getElementById("serverStatusList"),
 };
+const memoTooltip = document.createElement("div");
+memoTooltip.className = "memo-tooltip";
+document.body.appendChild(memoTooltip);
+let syncingHorizontalScroll = false;
 
 init();
 
@@ -315,6 +333,19 @@ function bindEvents() {
   els.deleteTabModal.addEventListener("click", (event) => {
     if (event.target === els.deleteTabModal) closeDeleteTabModal();
   });
+  els.writeMemoMenuItem.addEventListener("click", openMemoModal);
+  els.cancelMemoBtn.addEventListener("click", closeMemoModal);
+  els.saveMemoBtn.addEventListener("click", saveMemo);
+  els.memoModal.addEventListener("click", (event) => {
+    if (event.target === els.memoModal) closeMemoModal();
+  });
+  els.memoInput.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMemoModal();
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") saveMemo();
+  });
+  els.stockTableScroll.addEventListener("scroll", () => syncHorizontalScroll(els.stockTableScroll));
+  els.topHorizontalScroll.addEventListener("scroll", () => syncHorizontalScroll(els.topHorizontalScroll));
+  els.bottomHorizontalScroll.addEventListener("scroll", () => syncHorizontalScroll(els.bottomHorizontalScroll));
   els.stockSearch.addEventListener("input", handleStockSearch);
   els.stockSearch.addEventListener("focus", handleStockSearch);
   els.stockSearch.addEventListener("keydown", handleSuggestionKeydown);
@@ -334,6 +365,7 @@ function bindEvents() {
     if (tabId) openRenameTabModal(tabId);
   });
   document.addEventListener("click", closeTabContextMenu);
+  document.addEventListener("click", closeStockContextMenu);
   document.addEventListener("click", (event) => {
     if (!els.luluSwitcher.contains(event.target)) closeLuluMenu();
     if (!event.target.closest(".column-settings")) closeColumnSettings();
@@ -344,10 +376,16 @@ function bindEvents() {
       focusStockSearch();
     }
     if (event.key === "Escape") closeTabContextMenu();
+    if (event.key === "Escape") closeStockContextMenu();
     if (event.key === "Escape") closeLuluMenu();
     if (event.key === "Escape") closeDeleteTabModal();
+    if (event.key === "Escape") closeMemoModal();
   });
-  window.addEventListener("resize", closeTabContextMenu);
+  window.addEventListener("resize", () => {
+    closeTabContextMenu();
+    closeStockContextMenu();
+    updateHorizontalScrollbars();
+  });
   window.addEventListener("hashchange", syncPageFromHash);
   bindLuluDrag();
 }
@@ -360,9 +398,10 @@ function loadState() {
 
   if (!state.tabs.length) {
     const firstId = createId();
-    state.tabs = [{ id: firstId, name: "기본", symbols: ["005930.KS", "AAPL", "NVDA"] }];
+    state.tabs = [{ id: firstId, name: "기본", symbols: ["005930.KS", "AAPL", "NVDA"], memos: {} }];
     state.activeTabId = firstId;
   }
+  normalizeTabs();
 }
 
 function saveState() {
@@ -380,6 +419,13 @@ function activeTab() {
   return state.tabs.find((tab) => tab.id === state.activeTabId) || state.tabs[0];
 }
 
+function normalizeTabs() {
+  state.tabs.forEach((tab) => {
+    if (!Array.isArray(tab.symbols)) tab.symbols = [];
+    if (!tab.memos || typeof tab.memos !== "object" || Array.isArray(tab.memos)) tab.memos = {};
+  });
+}
+
 function render() {
   renderActivePage();
   renderTabs();
@@ -388,6 +434,7 @@ function render() {
   renderRows();
   renderServerStatuses();
   saveState();
+  updateHorizontalScrollbars();
 }
 
 function syncPageFromHash() {
@@ -765,6 +812,54 @@ function applyLiveStockGridTemplate(widths) {
   els.stockList.querySelectorAll(".stock-row").forEach((row) => {
     row.style.gridTemplateColumns = template;
   });
+  updateHorizontalScrollbars();
+}
+
+function updateHorizontalScrollbars() {
+  window.requestAnimationFrame(() => {
+    updateFixedColumnWidth();
+    const scrollWidth = els.stockTableScroll.scrollWidth;
+    const clientWidth = els.stockTableScroll.clientWidth;
+    const fixedWidth = getFixedColumnWidth();
+    const innerWidth = `${Math.max(0, scrollWidth - fixedWidth)}px`;
+    els.topHorizontalScrollInner.style.width = innerWidth;
+    els.bottomHorizontalScrollInner.style.width = innerWidth;
+    els.fixedColumnCurtain.style.setProperty("--fixed-column-curtain-height", `${els.stockTableScroll.scrollHeight}px`);
+    const shouldHide = scrollWidth <= clientWidth + 1;
+    els.topHorizontalScroll.classList.toggle("hidden", shouldHide);
+    els.bottomHorizontalScroll.classList.toggle("hidden", shouldHide);
+    els.topHorizontalScroll.scrollLeft = els.stockTableScroll.scrollLeft;
+    els.bottomHorizontalScroll.scrollLeft = els.stockTableScroll.scrollLeft;
+  });
+}
+
+function syncHorizontalScroll(source) {
+  if (syncingHorizontalScroll) return;
+  syncingHorizontalScroll = true;
+  const nextScrollLeft = source.scrollLeft;
+  [els.stockTableScroll, els.topHorizontalScroll, els.bottomHorizontalScroll]
+    .filter((target) => target !== source)
+    .forEach((target) => {
+      target.scrollLeft = nextScrollLeft;
+    });
+  window.requestAnimationFrame(() => {
+    syncingHorizontalScroll = false;
+  });
+}
+
+function getFixedColumnWidth() {
+  const value = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--fixed-stock-columns-width"));
+  return Number.isFinite(value) ? value : 204;
+}
+
+function updateFixedColumnWidth() {
+  const firstRow = els.stockList.querySelector(".stock-row") || els.stockHeader;
+  const nameCell = firstRow.querySelector(".stock-name") || els.stockHeader.querySelector('[data-column-id="name"]');
+  if (!nameCell) return;
+  const tableRect = els.stockTableScroll.getBoundingClientRect();
+  const nameRect = nameCell.getBoundingClientRect();
+  const width = Math.max(0, Math.ceil(nameRect.right - tableRect.left));
+  document.documentElement.style.setProperty("--fixed-stock-columns-width", `${width}px`);
 }
 
 function bindHeaderColumnResize() {
@@ -833,7 +928,14 @@ function getColumnWidthStorageKey() {
 
 function renderStockCell(columnId, stock, quote) {
   if (columnId === "name") {
-    return `<span class="stock-name"><strong>${escapeHtml(stock.name)}</strong><small>${escapeHtml(stock.market || "")}</small></span>`;
+    const memo = getStockMemo(stock.symbol);
+    return `
+      <span class="stock-name${memo ? " has-memo" : ""}" data-symbol="${escapeHtml(stock.symbol)}" data-memo="${escapeHtml(memo)}">
+        ${memo ? '<span class="memo-mark" aria-label="메모 있음">M</span>' : ""}
+        <strong>${escapeHtml(stock.name)}</strong>
+        <small>${escapeHtml(stock.market || "")}</small>
+      </span>
+    `;
   }
   if (columnId === "ticker") {
     return `<span>${escapeHtml(stock.symbol)}</span>`;
@@ -870,6 +972,19 @@ function renderRows() {
       <button class="mini-btn remove" type="button" title="삭제">x</button>
     `;
     row.querySelector(".remove").addEventListener("click", () => removeStock(symbol));
+    const nameCell = row.querySelector(".stock-name");
+    if (nameCell) {
+      nameCell.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        openStockContextMenu(event, symbol);
+      });
+      if (nameCell.dataset.memo) {
+        nameCell.addEventListener("mouseenter", (event) => showMemoTooltip(nameCell.dataset.memo, event.clientX, event.clientY));
+        nameCell.addEventListener("mousemove", (event) => moveMemoTooltip(event.clientX, event.clientY));
+        nameCell.addEventListener("mouseleave", hideMemoTooltip);
+      }
+    }
     row.addEventListener("dragstart", () => row.classList.add("dragging"));
     row.addEventListener("dragend", () => {
       row.classList.remove("dragging");
@@ -877,6 +992,83 @@ function renderRows() {
     });
     els.stockList.appendChild(row);
   });
+}
+
+function getStockMemo(symbol) {
+  return String(activeTab()?.memos?.[symbol] || "").trim();
+}
+
+function openStockContextMenu(event, symbol) {
+  closeTabContextMenu();
+  els.stockContextMenu.dataset.symbol = symbol;
+  els.writeMemoMenuItem.textContent = getStockMemo(symbol) ? "메모 수정" : "메모 작성";
+  els.stockContextMenu.classList.remove("hidden");
+  const menuRect = els.stockContextMenu.getBoundingClientRect();
+  const x = Math.min(event.clientX, window.innerWidth - menuRect.width - 8);
+  const y = Math.min(event.clientY, window.innerHeight - menuRect.height - 8);
+  els.stockContextMenu.style.left = `${Math.max(8, x)}px`;
+  els.stockContextMenu.style.top = `${Math.max(8, y)}px`;
+}
+
+function closeStockContextMenu() {
+  els.stockContextMenu.classList.add("hidden");
+  delete els.stockContextMenu.dataset.symbol;
+}
+
+function openMemoModal() {
+  const symbol = els.stockContextMenu.dataset.symbol;
+  if (!symbol) return;
+  state.editingMemoSymbol = symbol;
+  els.memoInput.value = getStockMemo(symbol);
+  els.memoMessage.textContent = "";
+  closeStockContextMenu();
+  els.memoModal.classList.remove("hidden");
+  window.setTimeout(() => {
+    els.memoInput.focus();
+    els.memoInput.select();
+  }, 0);
+}
+
+function closeMemoModal() {
+  els.memoModal.classList.add("hidden");
+  els.memoInput.value = "";
+  els.memoMessage.textContent = "";
+  state.editingMemoSymbol = "";
+}
+
+function saveMemo() {
+  const tab = activeTab();
+  const symbol = state.editingMemoSymbol;
+  if (!tab || !symbol) return;
+  tab.memos = tab.memos || {};
+  const memo = els.memoInput.value.trim();
+  if (memo) {
+    tab.memos[symbol] = memo;
+  } else {
+    delete tab.memos[symbol];
+  }
+  closeMemoModal();
+  render();
+}
+
+function showMemoTooltip(memo, x, y) {
+  memoTooltip.textContent = memo;
+  memoTooltip.classList.add("open");
+  moveMemoTooltip(x, y);
+}
+
+function moveMemoTooltip(x, y) {
+  if (!memoTooltip.classList.contains("open")) return;
+  const margin = 12;
+  const rect = memoTooltip.getBoundingClientRect();
+  const left = Math.min(Math.max(margin, x + 12), window.innerWidth - rect.width - margin);
+  const top = Math.min(Math.max(margin, y + 12), window.innerHeight - rect.height - margin);
+  memoTooltip.style.left = `${left}px`;
+  memoTooltip.style.top = `${top}px`;
+}
+
+function hideMemoTooltip() {
+  memoTooltip.classList.remove("open");
 }
 
 function renderServerStatuses() {
@@ -1069,7 +1261,7 @@ function submitTabModal(name) {
 function createTab(name) {
   if (!name) return;
   const id = createId();
-  state.tabs.push({ id, name, symbols: [] });
+  state.tabs.push({ id, name, symbols: [], memos: {} });
   state.activeTabId = id;
   closeTabModal();
   render();
@@ -1149,6 +1341,7 @@ function addStock(symbol) {
 function removeStock(symbol) {
   const tab = activeTab();
   tab.symbols = tab.symbols.filter((item) => item !== symbol);
+  if (tab.memos) delete tab.memos[symbol];
   render();
 }
 
