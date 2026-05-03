@@ -68,7 +68,7 @@ PHONE_HEARTBEAT_TOKEN_FILE = Path(os.getenv("PHONE_HEARTBEAT_TOKEN_FILE", str(PR
 PHONE_HEARTBEAT_TOKEN = os.getenv("PHONE_HEARTBEAT_TOKEN", "")
 PHONE_HEARTBEAT_TIMEOUT_MINUTES = int(os.getenv("PHONE_HEARTBEAT_TIMEOUT_MINUTES", "70"))
 APP_HOST = os.getenv("APP_HOST", "0.0.0.0")
-APP_PORT = int(os.getenv("APP_PORT", "3333"))
+APP_PORT = int(os.getenv("APP_PORT", "2222"))
 PHONE_DEVICE_IDS = ["note20", "s8", "note9", "note10"]
 STOCK_LIST_FILE = Path(os.getenv("STOCK_LIST_FILE", str(PROJECT_ROOT / "stock_list.json")))
 
