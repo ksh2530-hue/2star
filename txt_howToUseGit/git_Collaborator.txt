@@ -1,9 +1,0 @@
-
-클론 받은 상태 그대로인데 내가 수정해서 커밋
-orgbruce/Choice_01 레포 소유자에게
-ksh2530-hue 계정을 Collaborator로 추가요청 
-
-orgbruce/Choice_01 레포 소유자에게 ksh2530-hue 계정을 Collaborator로 추가 하는법
-
-- - - 
-
